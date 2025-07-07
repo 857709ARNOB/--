@@ -1,339 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
+  <title>GitHub Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <?!= include('css'); ?>
   <style>
-    /* General Styling */
-    .form-container {
-      max-width: 380px;
-      margin: 0 auto;
-      background-color: #f9f9f9;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f6f8fa;
+      margin: 0;
+      padding: 0;
     }
 
-    .input-group .form-control {
-      border-radius: 10px;
+    .header {
+      background-color: #24292f;
+      padding: 16px 32px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .input-group .btn {
-      border-radius: 10px;
-    }
-
-    .input-group-append {
-      margin-left: 5px;
-    }
-
-    .loading {
-      display: none;
-      text-align: center;
-    }
-
-    .loading img {
-      width: 50px;
-    }
-
-    .navbar .navbar-brand {
-      color: #fff;
+    .header .logo {
+      font-size: 24px;
       font-weight: bold;
     }
 
+    .header .nav-links a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .header .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      padding: 50px 0;
+    }
+
+    .profile-sidebar {
+      width: 200px;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-right: 30px;
+      border-radius: 8px;
+    }
+
+    .profile-sidebar img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+
+    .profile-sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .profile-sidebar .bio {
+      font-size: 14px;
+      color: #6a737d;
+      margin-bottom: 20px;
+    }
+
+    .repo-list {
+      width: 800px;
+      background-color: white;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    .repo-list h3 {
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+
+    .repo-list ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .repo-list ul li {
+      padding: 12px;
+      border-bottom: 1px solid #e1e4e8;
+    }
+
+    .repo-list ul li a {
+      color: #0366d6;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .repo-list ul li a:hover {
+      text-decoration: underline;
+    }
+
     .footer {
-      position: fixed;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      background-color: #313131;
+      background-color: #24292f;
+      color: white;
+      padding: 10px;
       text-align: center;
-      color: #fff;
-      padding: 8px 0;
-      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
+      font-size: 14px;
+      margin-top: 50px;
     }
 
-    #searchResults {
-      margin-bottom: 100px;
-    }
-
-    #ttd {
-      display: none;
-    }
-
-    #logo {
-      display: none;
-    }
-
-    table.dataTable th {
-      background-color: #d4d4d4;
-    }
-
-    #printButton {
-      background-color: #c7c7c7;
-    }
-
-    ::-webkit-scrollbar {
-      display: none;
-    }
-
-    @media print {
-      /* Hide unnecessary elements for printing */
-      .dataTables_length,
-      .dataTables_filter,
-      .dataTables_info,
-      .dataTables_paginate,
-      #printButton,
-      #searchForm,
-      #title,
-      #searchButton,
-      .loading {
-        display: none !important;
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
       }
 
-      /* Adjust content for print */
-      #searchResults {
-        margin-top: 0 !important;
-        margin-bottom: 10px !important;
-      }
-
-      /* Adjust table for printing */
-      #searchTable th,
-      #searchTable td {
-        border: 1px solid #919191 !important;
-        padding: 8px !important;
-        font-size: 14px !important;
-      }
-
-      .print-logo {
-        display: block !important;
-        text-align: center;
-        margin-bottom: 20px;
-      }
-
-      #ttd {
-        display: block !important;
-        color: #1a1a1a;
-        font-size: 12px;
-      }
-
-      .footer {
-        background-color: transparent;
-        color: #333;
-        padding: 8px 0;
-      }
-    }
-
-    @media (max-width: 767px) {
-      .navbar {
-        position: sticky;
-        top: 0;
-        z-index: 1020;
-      }
-
-      .footer {
-        margin-top: 10px;
-        position: static;
-        background-color: transparent;
-        padding: 8px 0;
-      }
-
-      .footer p {
-        color: #333;
-        font-weight: bold;
-      }
-
-      #searchResults {
+      .profile-sidebar {
+        width: 100%;
         margin-bottom: 30px;
+      }
+
+      .repo-list {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-light bg-primary">
-    <a class="navbar-brand">
-      <img src="https://icon-library.com/images/search-icon-jpg/search-icon-jpg-3.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
-      করিমপুর ইউনিয়ন পরিষদ হোল্ডিং প্রধানের তথ্য 
-    </a>
-    <img src="https://png.pngtree.com/template/20190314/ourmid/pngtree-sd-letter-logo-image_72942.jpg" width="30" height="30" class="d-inline-block align-top ml-auto" alt="">
-  </nav>
-  
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">GitHub</div>
+    <div class="nav-links">
+      <a href="#">Pull Requests</a>
+      <a href="#">Issues</a>
+      <a href="#">Marketplace</a>
+      <a href="#">Explore</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
   <div class="container">
-    <h3 class="text-center mb-4 mt-3" id="title"> তথ্য অনুসন্ধান করুন</h3>
-    <div class="form-container">
-      <form id="searchForm">
-        <div class="input-group">
-          <input type="text" class="form-control" id="searchInput" placeholder="হোল্ডিং নম্বর/মোবাইল নম্বর">
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-primary" id="searchButton">Search</button>
-          </div>
-        </div>
-        <div class="alert alert-danger mt-3" id="errorAlert" style="display: none;"></div>
-      </form>
+    <!-- Sidebar -->
+    <div class="profile-sidebar">
+      <img src="https://avatars.githubusercontent.com/u/983423?v=4" alt="Profile Picture">
+      <h2>John Doe</h2>
+      <p class="bio">Software developer with a passion for open-source projects. Contributing to the community one commit at a time.</p>
+      <a href="https://github.com/johndoe" target="_blank">View Profile</a>
     </div>
-    
-    <div id="searchResults" class="mt-4">
-      <div class="loading" id="loadingIndicator">
-        <img src="https://media.tenor.com/9dSmMR_zo6cAAAAi/buffering-colors.gif" alt="Loading...">
-      </div>
+
+    <!-- Repositories List -->
+    <div class="repo-list">
+      <h3>Repositories</h3>
+      <ul>
+        <li>
+          <a href="#">Repository Name 1</a>
+          <p>Short description of the repository...</p>
+        </li>
+        <li>
+          <a href="#">Repository Name 2</a>
+          <p>Short description of the repository...</p>
+        </li>
+        <li>
+          <a href="#">Repository Name 3</a>
+          <p>Short description of the repository...</p>
+        </li>
+        <li>
+          <a href="#">Repository Name 4</a>
+          <p>Short description of the repository...</p>
+        </li>
+      </ul>
     </div>
   </div>
 
+  <!-- Footer -->
   <div class="footer">
-    <p>@2025 ASD. All rights reserved -করিমপুর ইউনিয়ন পরিষদ.</p>
+    <p>&copy; 2025 GitHub, Inc.</p>
   </div>
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-  <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-  <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('searchForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        var searchTerm = document.getElementById('searchInput').value;
-        if (validateInput(searchTerm)) {
-          showLoading(true);
-          search(searchTerm);
-        }
-      });
-
-      document.getElementById('searchButton').addEventListener('click', function(event) {
-        event.preventDefault();
-        var searchTerm = document.getElementById('searchInput').value;
-        if (validateInput(searchTerm)) {
-          showLoading(true);
-          search(searchTerm);
-        }
-      });
-    });
-
-    function showLoading(isLoading) {
-      var loadingIndicator = document.getElementById('loadingIndicator');
-      if (loadingIndicator) {
-        loadingIndicator.style.display = isLoading ? 'block' : 'none';
-      }
-    }
-
-    function validateInput(input) {
-      var errorAlert = document.getElementById('errorAlert');
-      errorAlert.style.display = 'none';
-
-      if (!isNaN(input) && input.length ===4) {
-        return true;
-      } else if (isNaN(input)) {
-        return true; 
-      } else {
-        errorAlert.textContent = 'Please enter ওয়ার্ড নং exactly 4 digits';
-        errorAlert.style.display = 'block';
-        return false;
-      }
-    }
-
-    function search(searchTerm) {
-      google.script.run.withSuccessHandler(function(results) {
-        displaySearchResults(results);
-      }).searchData(searchTerm);
-    }
-
-    function displaySearchResults(results) {
-      var html = "<div class='print-logo' id='logo'>";
-      html += "<img src='http://3.bp.blogspot.com/-2mRi5l6ECmY/VvtG90ryp3I/AAAAAAAAD1s/b7gZEquhhe4wXqFkxYls0zGkgSAnFB5ng/s1600/Tut%2BWuri%2BHandayani%2Bvector%2Blogo.png' alt='Logo' style='max-width: 100px;margin-bottom:20px;'>";
-      html += "<h4 class='text-center mb-4'>করিমপুর ইউনিয়ন পরিষদ<br>দিরাই, সুনামগঞ্জ <br> হোল্ডিং এর বিবরণ</h4><hr style='background-color:#3d3d3d'>";
-      html += "</div>";
-
-      if (results.length === 0) {
-        html += "<p class='text-center'>No results found.</p>";
-      } else {
-        html += "<div class='d-flex justify-content-start mb-2'>";
-        html += "<button class='btn' id='printButton'><i class='fa fa-print'></i> Print</button>";
-        html += "</div>";
-        html += "<div class='table-responsive'>";
-        html += "<table id='searchTable' class='table table-striped table-bordered' style='width:100%'>";
-        html += "<thead><tr>";
-        html += "<th>ওয়ার্ড নং</th><th>হোল্ডিং নম্বর</th><th>হোল্ডিং প্রধানের মোবাইল নম্বর</th><th>ক্রমিক নং</th><th>হোল্ডিং প্রধানের পরিবারের সদস্যদের নাম</th><th>জন্ম তারিখ</th><th>জন্ম নিবন্ধন নম্বর</th><th>জাতীয় পরিচয় পত্র নম্বর</th><th>হোল্ডিং প্রধানের সাথে সম্পর্ক</th>";
-        html += "</tr></thead><tbody>";
-        
-        results.forEach(function(row) {
-          html += "<tr>";
-          row.forEach(function(cell) {
-            if (isValidURL(cell)) {
-              html += "<td><a href='" + cell + "' target='_blank'>Link File</a></td>";
-            } else {
-              html += "<td>" + cell + "</td>";
-            }
-          });
-          html += "</tr>";
-        });
-        html += "</tbody></table>";
-        html += "<p class='text-left mb-4 mt-5 mr-4' id='ttd' style='margin-left:73%'>Print By: করিমপুর ইউনিয়ন পরিষদ <br>দিরাই, সুনামগঞ্জ<br><img src='https://lh3.googleusercontent.com/p/</p>";
-        html += "</div>";
-      }
-
-      document.getElementById("searchResults").innerHTML = html;
-      $('#searchTable').DataTable({
-        responsive: true,
-        "pagingType": "simple_numbers",
-        "language": {
-          "search": "Filter results:",
-          "lengthMenu": "Show _MENU_ entries",
-          "paginate": {
-            "first": "First",
-            "last": "Last",
-            "next": "Next",
-            "previous": "Previous"
-          },
-          "info": "Page _PAGE_ of _PAGES_",
-          "infoEmpty": "No records available",
-          "infoFiltered": "(filtered from _MAX_ total records)",
-          "zeroRecords": "No matching records found",
-          "lengthMenu": 'Display <select>'+
-                         '<option value="5">5</option>'+
-                         '<option value="10">10</option>'+
-                         '<option value="50">50</option>'+
-                         '<option value="100">100</option>'+
-                         '<option value="250">250</option>'+
-                         '<option value="500">500</option>'+
-                         '<option value="1000">1000</option>'+
-                         '<option value="5000">5000</option>'+
-                         '</select> results'
-        }
-      });
-      $('#searchTable tbody').on('click', 'tr', function() {
-        var row = $(this);
-        var detailRow = row.next('.detail-row');
-        if (detailRow.length) {
-          detailRow.toggle();
-        } else {
-          var data = $('#searchTable').DataTable().row(row).data();
-          var detailHtml = '<tr class="detail-row"><td><ul>';
-          detailHtml += '</ul></td></tr>';
-        }
-      });
-      $('#printButton').on('click', function() {
-        window.print();
-      });
-      showLoading(false);
-    }
-
-    function isValidURL(str) {
-      var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ 
-        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // ip (v4) 
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ 
-        '(\\?[;&a-z\\d%_.~+=-]*)?'+ 
-        '(\\#[-a-z\\d_]*)?$','i');
-      return !!pattern.test(str);
-    }
-  </script>
 </body>
 </html>
