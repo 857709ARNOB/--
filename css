@@ -1,0 +1,116 @@
+  <style>
+    .form-container {
+      max-width: 380px;
+      margin: 0 auto;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .input-group .form-control {
+      border-radius: 10px;
+    }
+    .input-group .btn {
+      border-radius: 10px;
+    }
+    .input-group-append {
+      margin-left: 5px;
+    }
+    .loading {
+      display: none;
+      text-align: center;
+    }
+    .loading img {
+      width: 50px;
+    }
+    .navbar .navbar-brand{
+      color:#fff;
+      font-weight:bold;
+    }
+    .footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: #313131;
+      text-align: center;
+      color:#fff;
+      padding: 8px 0;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      z-index:1000;
+    }
+     #searchResults{
+      margin-bottom:100px;
+    }
+    #ttd{
+      display:none;
+    }
+    #logo{
+      display:none;
+    }
+     table.dataTable th{
+        background-color:#d4d4d4;
+       }
+     #printButton{
+        background-color:#c7c7c7;
+      }
+    ::-webkit-scrollbar {
+      display: none;}
+    @media print {
+      .form-container,
+      #searchForm,
+      #title,
+      #printButton,
+      #searchButton,
+
+      .dataTables_length,
+      .dataTables_filter,
+      .dataTables_info,
+      .dataTables_paginate {
+        display: none !important;
+      }
+     
+      #searchResults {
+        margin-bottom: 0 !important;
+        margin-top: 10px !important;
+      }
+      #searchTable th {
+        background-color: #bfbfbf !important;
+      }
+      table.dataTable th, table.dataTable td{
+        border: 1px solid #919191 !important;
+      }
+      .print-logo {
+        display: block !important;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      #ttd{
+      display:block;
+      color:#1a1a1a;
+     }
+     .footer{
+      background-color:transparent;
+      color:#333;
+     }
+    }
+    @media (max-width: 767px) {
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1020;
+      }
+      .footer {
+        margin-top:10px;
+        position: static;
+        background-color:transparent;
+      }
+      .footer p{
+        color:#333;
+        font-weigth:bold;
+      }
+      #searchResults{
+      margin-bottom:30px;
+     }
+   }
+  </style>
